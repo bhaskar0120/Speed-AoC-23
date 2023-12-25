@@ -27,10 +27,39 @@ def day1(file):
     print(ans)
 
 
-
+def day2(file):
+    ans1 = 0
+    ans2 = 0
+    color_limits = {
+            'red' : 12,
+            'green' : 13,
+            'blue' : 14,
+            }
+    for i in file.split("\n"):
+        parts = i.split(':')
+        gameid = int(parts[0].split(' ')[1])
+        flag = True
+        min_color = {
+                'red' : 0,
+                'green' : 0,
+                'blue' : 0,
+                }
+        for sets in parts[1].split(';'):
+            for balls in sets.split(','):
+                count, color = balls.split(' ')[1:]
+                count = int(count)
+                min_color[color] = max(min_color[color], count)
+                if count > color_limits[color]:
+                    flag = False
+        if flag:
+            ans1 += gameid
+        ans2 += min_color['red']*min_color['green']*min_color['blue']
+    print(ans1)
+    print(ans2)
 
 num_to_day = {
         '1': day1,
+        '2': day2,
         }
 
 if __name__ == "__main__":
