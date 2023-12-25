@@ -124,14 +124,36 @@ def day3(file):
     print(ans)
 
 
+def day4(file):
+    ans = 0
+    lines = file.split("\n")
+    multiplier = [1]*len(lines)
+    for line_number,i in enumerate(lines):
+        parts = i.split(':')
+        gameid = int(parts[0].split(' ')[-1])
+        numbers = parts[1].split('|')
+        winning_numbers = set(map(int,filter(None,numbers[0].split(' '))))
+        our_numbers = set(map(int,filter(None,numbers[1].split(' '))))
+        count = 0
+        for i in our_numbers:
+            if i in winning_numbers:
+                count += 1
+        if count > 0:
+            ans += 1<<(count-1)
+        for j in range(1,count+1):
+            if j+line_number >= len(lines):
+                break
+            multiplier[j+line_number] += multiplier[line_number]
 
-
+    print(ans)
+    print(sum(multiplier))
 
 
 num_to_day = {
         '1': day1,
         '2': day2,
         '3': day3,
+        '4': day4,
         }
 
 if __name__ == "__main__":
